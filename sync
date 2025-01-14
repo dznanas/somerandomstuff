@@ -1,0 +1,39 @@
+import {sequelize} from './db.js';
+import User from './src/models/User.js';
+import Hotel from './src/models/Hotels.js';
+import Voyage from './src/models/Voyage.js';
+import Reservation from './src/models/Reservation.js';
+
+// creating the tables
+const syncDatabase = async () => {
+    const models = [
+        { name: 'users', model: User },
+        { name: 'hotels', model: Hotel },
+        { name: 'voyages', model: Voyage },
+        { name: 'reservations', model: Reservation }
+    ];
+    const table = await sequelize.getQueryInterface().showAllTables();
+    console.log('Starting database synchronization...');
+    try {
+        // check the existence of the table in the database
+        for (const { model } of models) {
+            if(table.includes(model.tableName)){
+                console.log(`Table ${model.tableName} already exists.`);
+            } else {
+                // Synchronize all models
+                await sequelize.sync(); // This will update tables to match models
+                console.log('Database synchronized successfully.');
+            }
+        }
+    } catch (error) {
+        console.error('Error synchronizing database:', error);
+    }
+
+};
+
+// Execute the sync function
+syncDatabase().catch(error => {
+    console.error('Unexpected error during database synchronization:', error);
+});
+
+
