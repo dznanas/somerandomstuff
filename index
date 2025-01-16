@@ -1,0 +1,22 @@
+import { mergeResolvers } from "@graphql-tools/merge";
+import { mergeTypeDefs } from "@graphql-tools/merge";
+
+
+//Calls the Resolvers
+import userResolver from "./User/User.resolver.js";
+import voyageResolver from "./Voyage/Voyage.resolver.js";
+import reservationResolver from "./Reservation/Reservation.resolver.js";
+import hotelResolver from "./Hotel/Hotel.resolver.js";
+
+//Calls The TypeDefs
+
+import user from "./User/User.typeDef.js";
+import voyage  from "./Voyage/Voyage.typeDef.js";
+import reservation from "./Reservation/Reservation.typeDef.js";
+import hotel from "./Hotel/Hotel.typeDef.js";
+
+const mergedTypeDefs = mergeTypeDefs([user,voyage,reservation,hotel]);
+
+const mergedResolvers = mergeResolvers([userResolver,voyageResolver,reservationResolver,hotelResolver]);
+
+export { mergedTypeDefs, mergedResolvers };
